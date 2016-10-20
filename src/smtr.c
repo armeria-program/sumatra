@@ -97,6 +97,28 @@ void smtr_add_force(SmtrUpdateForceFunc func, void *userData)
   fc->update = func;
 }
 
+void smtr_add_energy(SmtrCalculateEnergyFunc func, void *userData )
+{
+	assert(_smtr.forceCount < MAX_ENERGY_COUNT);
+	
+	SmtrEnergyClass *fc = _smtr.energyClasses + _smtr.energyCount++;
+	fc->func = func;
+	fc->userData = userData;
+}
+
+float smtr_calc_energy()
+{
+	int i;
+	float total=0.0f;
+	SmtrEnergyClass *fc;
+	for (i=0; i<_smtr.energyCount; i++) {
+		fc = & _smtr.energyClasses[i];
+		fc->energy = fc->func(fc->userData);
+		total += fc->energy;
+	}
+	return total;
+}
+
 
 static
 void update_random_forces(void *userData, vec3 *results)

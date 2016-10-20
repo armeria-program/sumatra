@@ -38,6 +38,7 @@ extern float kIntegrationStep;
 extern float kVelocityScaleFactor;
 
 #define MAX_FORCE_COUNT 10
+#define MAX_ENERGY_COUNT 10
 #define MAX_SUBSCRIBER_COUNT 10
 #define MAX_NEIGHBOUR_COUNT 20
 #define MAX_INTERACTING_DIST 30
@@ -56,6 +57,20 @@ struct SmtrForceClass
   SmtrUpdateForceFunc update;
 };
 
+/* Added by Gokhan from Here*/
+typedef float (*SmtrCalculateEnergyFunc)(void *userData);
+typedef struct SmtrEnergyClass SmtrEnergyClass;
+
+struct SmtrEnergyClass {
+	float energy;
+	void *userData;
+	SmtrCalculateEnergyFunc func;
+};
+
+void smtr_add_energy(SmtrCalculateEnergyFunc, void *userData);
+
+/* To Here */
+
 typedef int (*SmtrCallbackFunc)(void *userData);
 
 struct SmtrSubscriber
@@ -71,13 +86,16 @@ struct SmtrContext
   float *mass;
   float *distances;
   int *neighbours;
-  long currentTimeStep;
+  unsigned long currentTimeStep;
   vec3 *velocities;
   float *vforceScalars;
   
   vec3 *forces;
   int forceCount;
   SmtrForceClass forceClasses[MAX_FORCE_COUNT];
+	
+	int energyCount;
+	SmtrEnergyClass energyClasses[MAX_ENERGY_COUNT];
 
   int subscriberCount;
   SmtrSubscriber subscribers[MAX_SUBSCRIBER_COUNT];
