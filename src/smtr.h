@@ -40,8 +40,8 @@ extern float kVelocityScaleFactor;
 #define MAX_FORCE_COUNT 10
 #define MAX_ENERGY_COUNT 10
 #define MAX_SUBSCRIBER_COUNT 10
-#define MAX_NEIGHBOUR_COUNT 20
-#define MAX_INTERACTING_DIST 30
+#define MAX_NEIGHBOUR_COUNT 50
+#define MAX_INTERACTING_DIST 1000
 #define DIST_CALC_INTERVAL 10
 
 typedef struct SmtrContext SmtrContext;
@@ -105,10 +105,13 @@ extern SmtrContext *smtr_ctx;
 
 int smtr_init(vec3 *particles, float *mass,
               int particleCount, float temperature);
-void smtr_run_loop(long steps);
+void smtr_run_loop(unsigned long steps);
 
-void smtr_add_force(SmtrUpdateForceFunc func, void *userData);
+int smtr_add_force(SmtrUpdateForceFunc func, void *userData);
 void smtr_subscribe_event(SmtrCallbackFunc func, void *userData);
+float smtr_calc_energy();
+
+//void smtr_add_energy
 
 // Extensions to vec3
 static inline float svec3_dist(int i, int j)

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		765BE45C1DC9651700F8FBF4 /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
+		765BE45D1DC9651C00F8FBF4 /* smtr.h in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF331D9B9ACE005B886C /* smtr.h */; };
 		8F65BF351D9B9ACE005B886C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF2F1D9B9ACE005B886C /* main.c */; };
 		8F65BF361D9B9ACE005B886C /* scg.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF301D9B9ACE005B886C /* scg.c */; };
 		8F65BF371D9B9ACE005B886C /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
@@ -25,16 +27,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		765BE4581DC9650A00F8FBF4 /* liblibsmtr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibsmtr.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F65BF2F1D9B9ACE005B886C /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		8F65BF301D9B9ACE005B886C /* scg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scg.c; sourceTree = "<group>"; };
 		8F65BF311D9B9ACE005B886C /* scg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scg.h; sourceTree = "<group>"; };
-		8F65BF321D9B9ACE005B886C /* smtr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smtr.c; sourceTree = "<group>"; };
-		8F65BF331D9B9ACE005B886C /* smtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smtr.h; sourceTree = "<group>"; };
+		8F65BF321D9B9ACE005B886C /* smtr.c */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.c; path = smtr.c; sourceTree = "<group>"; tabWidth = 2; };
+		8F65BF331D9B9ACE005B886C /* smtr.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = smtr.h; sourceTree = "<group>"; tabWidth = 2; };
 		8F65BF341D9B9ACE005B886C /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vec3.h; sourceTree = "<group>"; };
 		8F8F0AB81D0049B300406249 /* Sumatra */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sumatra; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		765BE4551DC9650A00F8FBF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F8F0AB51D0049B300406249 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -71,13 +81,41 @@
 			isa = PBXGroup;
 			children = (
 				8F8F0AB81D0049B300406249 /* Sumatra */,
+				765BE4581DC9650A00F8FBF4 /* liblibsmtr.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		765BE4561DC9650A00F8FBF4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		765BE4571DC9650A00F8FBF4 /* libsmtr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 765BE4591DC9650A00F8FBF4 /* Build configuration list for PBXNativeTarget "libsmtr" */;
+			buildPhases = (
+				765BE4541DC9650A00F8FBF4 /* Sources */,
+				765BE4551DC9650A00F8FBF4 /* Frameworks */,
+				765BE4561DC9650A00F8FBF4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libsmtr;
+			productName = libsmtr;
+			productReference = 765BE4581DC9650A00F8FBF4 /* liblibsmtr.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		8F8F0AB71D0049B300406249 /* Sumatra */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F8F0ABF1D0049B300406249 /* Build configuration list for PBXNativeTarget "Sumatra" */;
@@ -104,6 +142,10 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Ferhat Ayaz";
 				TargetAttributes = {
+					765BE4571DC9650A00F8FBF4 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
 					8F8F0AB71D0049B300406249 = {
 						CreatedOnToolsVersion = 7.3;
 					};
@@ -122,11 +164,21 @@
 			projectRoot = "";
 			targets = (
 				8F8F0AB71D0049B300406249 /* Sumatra */,
+				765BE4571DC9650A00F8FBF4 /* libsmtr */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		765BE4541DC9650A00F8FBF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				765BE45D1DC9651C00F8FBF4 /* smtr.h in Sources */,
+				765BE45C1DC9651700F8FBF4 /* smtr.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F8F0AB41D0049B300406249 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,6 +192,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		765BE45A1DC9650A00F8FBF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		765BE45B1DC9650A00F8FBF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8F8F0ABD1D0049B300406249 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -254,6 +330,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		765BE4591DC9650A00F8FBF4 /* Build configuration list for PBXNativeTarget "libsmtr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				765BE45A1DC9650A00F8FBF4 /* Debug */,
+				765BE45B1DC9650A00F8FBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		8F8F0AB31D0049B300406249 /* Build configuration list for PBXProject "Sumatra" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

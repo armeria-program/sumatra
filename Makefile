@@ -14,4 +14,11 @@ sumatra: $(OBJ)
 clean:
 	rm -f $(OBJ) $(DEP) sumatra
 
+_temp:
+	gcc -c src/smtr.c
+	ar rcs libsmtr.a smtr.o
+	mv libsmtr.a ~/Dropbox/tmp/brewer/macOS
+	cp src/smtr.h ~/Dropbox/tmp/brewer/macOS
+	cp src/vec3.h ~/Dropbox/tmp/brewer/macOS
+
 -include $(DEP)

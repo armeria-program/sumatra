@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdio.h> // temp
 
 SmtrContext _smtr;
 SmtrContext *smtr_ctx = &_smtr;
@@ -71,23 +72,24 @@ int smtr_init(vec3 *partcls, float *mass, int size, float temperature)
   memcpy(_smtr.mass, mass, size * sizeof(float));
 
   for (i = 0; i < size; i++)
-    _smtr.velocities[i] = vec3_random(sqrt(kEpsilon*temperature/mass[i]));
+    _smtr.velocities[i] = vec3_random( sqrt(kEpsilon*temperature/mass[i]) );
 
   for (i = 0; i < size; i++)
-    _smtr.vforceScalars[i] = (1 - c0 + c0 * c0)*(kIntegrationStep/(2*mass[i]));
+    _smtr.vforceScalars[i] = (1 - c0 + c0 * c0)*( kIntegrationStep/(2*mass[i]) );
 
   _smtr.currentTimeStep = 0;
   _smtr.subscriberCount = 0;
   
   update_distances();
-
+ //   printf ("ktimeUnit : %f\n kGamma:%f \n kIntegrationStep: %f\n kVelocityScaleFactor: %f\n C0: %f\n vforceScalar: %f\n", kTimeUnit, kGamma, kIntegrationStep, kVelocityScaleFactor , c0, _smtr.vforceScalars[0]);
+	
   if (temperature > 0)
     add_random_force(temperature);
 
   return 0;
 }
 
-void smtr_add_force(SmtrUpdateForceFunc func, void *userData)
+int smtr_add_force(SmtrUpdateForceFunc func, void *userData)
 {
   assert(_smtr.forceCount < MAX_FORCE_COUNT);
   
@@ -95,6 +97,8 @@ void smtr_add_force(SmtrUpdateForceFunc func, void *userData)
   fc->forces = calloc(_smtr.particleCount, sizeof(vec3));
   fc->userData = userData;
   fc->update = func;
+	
+	return _smtr.forceCount - 1;
 }
 
 void smtr_add_energy(SmtrCalculateEnergyFunc func, void *userData )
@@ -138,11 +142,13 @@ static void add_random_force(float temperature)
   
   // Calculate constants
   forceConsts = calloc(smtr_ctx->particleCount, sizeof(float));
-  multiplier = sqrt(20*kEpsilon*temperature)/kTimeUnit;
-  
-  for (i = 0; i < smtr_ctx->particleCount; i++)
+  // multiplier = sqrt(20*kEpsilon*temperature)/kTimeUnit;
+    multiplier = 2*kEpsilon*temperature*kGamma/kIntegrationStep;
+    
+    for (i = 0; i < smtr_ctx->particleCount; i++) {
     forceConsts[i] = sqrt(multiplier * smtr_ctx->mass[i]);
-  
+       // printf("Rastgele Kuvvvet Sabiti %d %f \n", i, forceConsts[i]);
+    }
   // Add force
   smtr_add_force(update_random_forces, forceConsts);
 }
@@ -163,13 +169,15 @@ void update_velocities()
 {
   int i;
   vec3 tmp1, tmp2;
-
+	float sumx=0, sumy=0, sumz=0, sum=0.0;
+	
   for (i = 0; i < _smtr.particleCount; i++)
   {
     tmp1 = vec3_mul(_smtr.velocities[i], kVelocityScaleFactor);
     tmp2 = vec3_mul(_smtr.forces[i], _smtr.vforceScalars[i]);
     _smtr.velocities[i] = vec3_add(tmp1, tmp2);
-  }
+	}
+	
 
   calculate_forces();
   
@@ -177,9 +185,13 @@ void update_velocities()
   {
     tmp1 = vec3_mul(_smtr.forces[i], _smtr.vforceScalars[i]);
     _smtr.velocities[i] = vec3_add(_smtr.velocities[i], tmp1);
-  }
+		sum += fabsf (_smtr.velocities[i].x) + fabsf (_smtr.velocities[i].y) + fabsf (_smtr.velocities[i].z);
+	}
+	//printf ("Velocity Sum: %f\n", sum );
 }
 
+
+#if 1
 void calculate_forces()
 {
   int i;
@@ -193,6 +205,7 @@ void calculate_forces()
     fc->update(fc->userData, _smtr.forces);
   }
 }
+#endif
 
 #if 0
 static
@@ -223,12 +236,12 @@ void update_coordinates()
   vec3 *p = _smtr.particles;
   float *m = _smtr.mass;
   const float h = kIntegrationStep;
-  
+  const float gm = kGamma;
   for (i = 0; i < _smtr.particleCount; i++)
   {
-    p[i].x += h*(v[i].x+h*(f[i].x-m[i]*10*h*v[i].x)*0.5/m[i]);
-    p[i].y += h*(v[i].y+h*(f[i].y-m[i]*10*h*v[i].y)*0.5/m[i]);
-    p[i].z += h*(v[i].z+h*(f[i].z-m[i]*10*h*v[i].z)*0.5/m[i]);
+    p[i].x += h * (v[i].x + h*(f[i].x - m[i]*gm*v[i].x) * 0.5/m[i]); //TODO: calculate one time constants
+    p[i].y += h * (v[i].y + h*(f[i].y - m[i]*gm*v[i].y) * 0.5/m[i]);
+    p[i].z += h * (v[i].z + h*(f[i].z - m[i]*gm*v[i].z) * 0.5/m[i]);
   }
 }
 
@@ -290,19 +303,20 @@ int notify_subscribers()
   return 0;
 }
 
-void smtr_run_loop(long steps)
+void smtr_run_loop(unsigned long steps)
 {
   _smtr.currentTimeStep = 0;
   while (_smtr.currentTimeStep < steps)
   {
+	if (notify_subscribers())
+		break;
     update_velocities();
     update_coordinates();
     if (_smtr.currentTimeStep % DIST_CALC_INTERVAL == 0)
       update_distances();
     else
       update_neighbours();
-    if (notify_subscribers())
-      break;
+
     _smtr.currentTimeStep++;
   }
 }
