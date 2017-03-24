@@ -40,9 +40,9 @@ extern float kVelocityScaleFactor;
 #define MAX_FORCE_COUNT 10
 #define MAX_ENERGY_COUNT 10
 #define MAX_SUBSCRIBER_COUNT 10
-#define MAX_NEIGHBOUR_COUNT 50
-#define MAX_INTERACTING_DIST 1000
-#define DIST_CALC_INTERVAL 10
+#define MAX_NEIGHBOUR_COUNT 100
+#define MAX_INTERACTING_DIST 100
+#define DIST_CALC_INTERVAL 1
 
 typedef struct SmtrContext SmtrContext;
 typedef struct SmtrForceClass SmtrForceClass;
@@ -109,7 +109,8 @@ void smtr_run_loop(unsigned long steps);
 
 int smtr_add_force(SmtrUpdateForceFunc func, void *userData);
 void smtr_subscribe_event(SmtrCallbackFunc func, void *userData);
-float smtr_calc_energy();
+float smtr_calcPotentialEnergy();
+float smtr_calcKineticEnergy();
 
 //void smtr_add_energy
 

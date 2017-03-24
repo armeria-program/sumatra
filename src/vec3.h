@@ -2,7 +2,8 @@
 #define vec3_h
 
 #include <math.h>
-
+#include <stdio.h>
+#include <stdlib.h>
 #define SMALL 1E-4
 
 typedef struct vec3 vec3;
@@ -182,6 +183,14 @@ static inline float vec3_pos_dih_slow(vec3 p1, vec3 p2, vec3 p3, vec3 p4)
 static inline int vec3_isnan(vec3 v)
 {
   return isnan(v.x) || isnan(v.y) || isnan(v.z);
+}
+
+static inline char* vec3_repr(vec3 v)
+{
+	static char *s = NULL;
+	if (!s) s = malloc(32 * sizeof(char));
+	sprintf(s, "%9.5f %9.5f %9.5f", v.x, v.y, v.z);
+	return s;
 }
 
 #undef SMALL

@@ -71,8 +71,16 @@ int smtr_init(vec3 *partcls, float *mass, int size, float temperature)
   memcpy(_smtr.particles, partcls, size * sizeof(vec3));
   memcpy(_smtr.mass, mass, size * sizeof(float));
 
-  for (i = 0; i < size; i++)
+	struct vec3 norm = {0,0,0};
+	for (i = 0; i < size; i++) {
     _smtr.velocities[i] = vec3_random( sqrt(kEpsilon*temperature/mass[i]) );
+		norm = vec3_add(norm, _smtr.velocities[i]);
+	}
+	norm = vec3_div(norm, _smtr.particleCount);
+// Normalize initial random velocitys
+	for (i = 0; i < size; i++) {
+		_smtr.velocities[i] = vec3_sub(_smtr.velocities[i], norm);
+	}
 
   for (i = 0; i < size; i++)
     _smtr.vforceScalars[i] = (1 - c0 + c0 * c0)*( kIntegrationStep/(2*mass[i]) );
@@ -83,9 +91,9 @@ int smtr_init(vec3 *partcls, float *mass, int size, float temperature)
   update_distances();
  //   printf ("ktimeUnit : %f\n kGamma:%f \n kIntegrationStep: %f\n kVelocityScaleFactor: %f\n C0: %f\n vforceScalar: %f\n", kTimeUnit, kGamma, kIntegrationStep, kVelocityScaleFactor , c0, _smtr.vforceScalars[0]);
 	
-  if (temperature > 0)
-    add_random_force(temperature);
 
+  if (temperature > 0) add_random_force(temperature);
+	 
   return 0;
 }
 
@@ -110,7 +118,7 @@ void smtr_add_energy(SmtrCalculateEnergyFunc func, void *userData )
 	fc->userData = userData;
 }
 
-float smtr_calc_energy()
+float smtr_calcPotentialEnergy()
 {
 	int i;
 	float total=0.0f;
@@ -191,7 +199,7 @@ void update_velocities()
 }
 
 
-#if 1
+#if 0
 void calculate_forces()
 {
   int i;
@@ -207,8 +215,8 @@ void calculate_forces()
 }
 #endif
 
-#if 0
-static
+#if 1
+//static
 void calculate_forces()
 {
   int i, j;
@@ -273,6 +281,7 @@ void update_neighbours()
 {
   int i;
   int *n;
+  float _tmp;
   
   for (i = 0; i < _smtr.particleCount; i++)
   {
@@ -282,6 +291,7 @@ void update_neighbours()
       assert(i < *n);
       _smtr.distances[i*_smtr.particleCount + *n] =
         vec3_dist(_smtr.particles[i], _smtr.particles[*n]);
+      _tmp = vec3_dist(_smtr.particles[i], _smtr.particles[*n]);
     }
   }
 }
@@ -360,3 +370,18 @@ static vec3 vec3_random(float scalar)
     scalar * eta()
   };
 }
+
+float smtr_calcKineticEnergy () {
+	int i;
+	float sumKineticEnergy = 0.0f;
+	float mass;
+	vec3 V;
+	
+	for (i=0; i<_smtr.particleCount; i++) {
+		mass = _smtr.mass[i];
+		V = _smtr.velocities[i];
+		sumKineticEnergy += mass * (V.x*V.x + V.y*V.y + V.z*V.z);
+	}
+	return sumKineticEnergy * 0.5;
+}
+

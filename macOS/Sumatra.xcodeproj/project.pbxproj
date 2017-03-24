@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		765BE45C1DC9651700F8FBF4 /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
-		765BE45D1DC9651C00F8FBF4 /* smtr.h in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF331D9B9ACE005B886C /* smtr.h */; };
+		765BE4981DC9725800F8FBF4 /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
+		765BE4991DC9726300F8FBF4 /* smtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F65BF331D9B9ACE005B886C /* smtr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		765BE49A1DC9727000F8FBF4 /* vec3.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F65BF341D9B9ACE005B886C /* vec3.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F65BF351D9B9ACE005B886C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF2F1D9B9ACE005B886C /* main.c */; };
 		8F65BF361D9B9ACE005B886C /* scg.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF301D9B9ACE005B886C /* scg.c */; };
 		8F65BF371D9B9ACE005B886C /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
@@ -27,7 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		765BE4581DC9650A00F8FBF4 /* liblibsmtr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibsmtr.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		765BE4941DC9723E00F8FBF4 /* libsmtr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsmtr.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F65BF2F1D9B9ACE005B886C /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		8F65BF301D9B9ACE005B886C /* scg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scg.c; sourceTree = "<group>"; };
 		8F65BF311D9B9ACE005B886C /* scg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scg.h; sourceTree = "<group>"; };
@@ -38,7 +39,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		765BE4551DC9650A00F8FBF4 /* Frameworks */ = {
+		765BE4911DC9723E00F8FBF4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -81,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				8F8F0AB81D0049B300406249 /* Sumatra */,
-				765BE4581DC9650A00F8FBF4 /* liblibsmtr.a */,
+				765BE4941DC9723E00F8FBF4 /* libsmtr.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,31 +90,33 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		765BE4561DC9650A00F8FBF4 /* Headers */ = {
+		765BE4921DC9723E00F8FBF4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				765BE4991DC9726300F8FBF4 /* smtr.h in Headers */,
+				765BE49A1DC9727000F8FBF4 /* vec3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		765BE4571DC9650A00F8FBF4 /* libsmtr */ = {
+		765BE4931DC9723E00F8FBF4 /* smtr */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 765BE4591DC9650A00F8FBF4 /* Build configuration list for PBXNativeTarget "libsmtr" */;
+			buildConfigurationList = 765BE4951DC9723E00F8FBF4 /* Build configuration list for PBXNativeTarget "smtr" */;
 			buildPhases = (
-				765BE4541DC9650A00F8FBF4 /* Sources */,
-				765BE4551DC9650A00F8FBF4 /* Frameworks */,
-				765BE4561DC9650A00F8FBF4 /* Headers */,
+				765BE4901DC9723E00F8FBF4 /* Sources */,
+				765BE4911DC9723E00F8FBF4 /* Frameworks */,
+				765BE4921DC9723E00F8FBF4 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = libsmtr;
-			productName = libsmtr;
-			productReference = 765BE4581DC9650A00F8FBF4 /* liblibsmtr.a */;
+			name = smtr;
+			productName = smtr;
+			productReference = 765BE4941DC9723E00F8FBF4 /* libsmtr.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		8F8F0AB71D0049B300406249 /* Sumatra */ = {
@@ -139,10 +142,10 @@
 		8F8F0AB01D0049B300406249 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Ferhat Ayaz";
 				TargetAttributes = {
-					765BE4571DC9650A00F8FBF4 = {
+					765BE4931DC9723E00F8FBF4 = {
 						CreatedOnToolsVersion = 8.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -164,18 +167,17 @@
 			projectRoot = "";
 			targets = (
 				8F8F0AB71D0049B300406249 /* Sumatra */,
-				765BE4571DC9650A00F8FBF4 /* libsmtr */,
+				765BE4931DC9723E00F8FBF4 /* smtr */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		765BE4541DC9650A00F8FBF4 /* Sources */ = {
+		765BE4901DC9723E00F8FBF4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				765BE45D1DC9651C00F8FBF4 /* smtr.h in Sources */,
-				765BE45C1DC9651700F8FBF4 /* smtr.c in Sources */,
+				765BE4981DC9725800F8FBF4 /* smtr.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,11 +194,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		765BE45A1DC9650A00F8FBF4 /* Debug */ = {
+		765BE4961DC9723E00F8FBF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				EXECUTABLE_PREFIX = lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -204,11 +205,10 @@
 			};
 			name = Debug;
 		};
-		765BE45B1DC9650A00F8FBF4 /* Release */ = {
+		765BE4971DC9723E00F8FBF4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				EXECUTABLE_PREFIX = lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -230,8 +230,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -274,8 +276,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -330,11 +334,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		765BE4591DC9650A00F8FBF4 /* Build configuration list for PBXNativeTarget "libsmtr" */ = {
+		765BE4951DC9723E00F8FBF4 /* Build configuration list for PBXNativeTarget "smtr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				765BE45A1DC9650A00F8FBF4 /* Debug */,
-				765BE45B1DC9650A00F8FBF4 /* Release */,
+				765BE4961DC9723E00F8FBF4 /* Debug */,
+				765BE4971DC9723E00F8FBF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
