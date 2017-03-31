@@ -86,7 +86,7 @@ struct SmtrContext
   float *mass;
   float *distances;
   int *neighbours;
-  unsigned long currentTimeStep;
+  unsigned long long currentTimeStep;
   vec3 *velocities;
   float *vforceScalars;
   
@@ -105,7 +105,7 @@ extern SmtrContext *smtr_ctx;
 
 int smtr_init(vec3 *particles, float *mass,
               int particleCount, float temperature);
-void smtr_run_loop(unsigned long steps);
+void smtr_run_loop(unsigned long long steps);
 
 int smtr_add_force(SmtrUpdateForceFunc func, void *userData);
 void smtr_subscribe_event(SmtrCallbackFunc func, void *userData);

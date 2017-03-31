@@ -313,7 +313,7 @@ int notify_subscribers()
   return 0;
 }
 
-void smtr_run_loop(unsigned long steps)
+void smtr_run_loop(unsigned long long steps)
 {
   _smtr.currentTimeStep = 0;
   while (_smtr.currentTimeStep < steps)
