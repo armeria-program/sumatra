@@ -99,6 +99,7 @@ struct SmtrContext
 
   int subscriberCount;
   SmtrSubscriber subscribers[MAX_SUBSCRIBER_COUNT];
+  int SEED; // TODO: for recording state global seed added here, consider refactor it from removing smwhr else
 };
 
 extern SmtrContext *smtr_ctx;

@@ -193,7 +193,7 @@ void update_velocities()
   {
     tmp1 = vec3_mul(_smtr.forces[i], _smtr.vforceScalars[i]);
     _smtr.velocities[i] = vec3_add(_smtr.velocities[i], tmp1);
-		sum += fabsf (_smtr.velocities[i].x) + fabsf (_smtr.velocities[i].y) + fabsf (_smtr.velocities[i].z);
+		//sum += fabsf (_smtr.velocities[i].x) + fabsf (_smtr.velocities[i].y) + fabsf (_smtr.velocities[i].z);
 	}
 	//printf ("Velocity Sum: %f\n", sum );
 }
@@ -315,11 +315,12 @@ int notify_subscribers()
 
 void smtr_run_loop(unsigned long long steps)
 {
-  _smtr.currentTimeStep = 0;
+  //_smtr.currentTimeStep = 0;
+  update_distances(); // TODO: remove it from here move it to loadState when it is in sumatra project
   while (_smtr.currentTimeStep < steps)
   {
-	if (notify_subscribers())
-		break;
+		if (notify_subscribers()) break;
+
     update_velocities();
     update_coordinates();
     if (_smtr.currentTimeStep % DIST_CALC_INTERVAL == 0)
@@ -352,7 +353,8 @@ static float eta()
   
   for (i = 0; i < 12; i++)
   {
-    a = (rand() / (float) (RAND_MAX));
+    smtr_ctx->SEED=rand();
+    a = ( smtr_ctx->SEED / (float) (RAND_MAX));
     r += a;
   }
   
