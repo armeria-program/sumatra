@@ -38,13 +38,17 @@ static float eta();
 // Local functions
 void calculate_forces();
 static void update_coordinates();
-static void update_distances();
+//static void update_distances();
 static void update_random_forces(void *userData, vec3 *results);
 static int notify_subscribers();
 static void add_random_force(float temperature);
 
 // Extension to vec3
 static vec3 vec3_random(float scalar);
+
+stime* init_stime() {
+	return malloc(1 * sizeof(stime));
+}
 
 int smtr_init(vec3 *partcls, float *mass, int size, float temperature)
 {
@@ -88,7 +92,7 @@ int smtr_init(vec3 *partcls, float *mass, int size, float temperature)
   _smtr.currentTimeStep = 0;
   _smtr.subscriberCount = 0;
   
-  update_distances();
+  smtr_update_distances();
  //   printf ("ktimeUnit : %f\n kGamma:%f \n kIntegrationStep: %f\n kVelocityScaleFactor: %f\n C0: %f\n vforceScalar: %f\n", kTimeUnit, kGamma, kIntegrationStep, kVelocityScaleFactor , c0, _smtr.vforceScalars[0]);
 	
 
@@ -253,8 +257,8 @@ void update_coordinates()
   }
 }
 
-static
-void update_distances()
+
+void smtr_update_distances()
 {
   int i, j, k;
   float dist;
@@ -316,7 +320,7 @@ int notify_subscribers()
 void smtr_run_loop(unsigned long long steps)
 {
   //_smtr.currentTimeStep = 0;
-  update_distances(); // TODO: remove it from here move it to loadState when it is in sumatra project
+  smtr_update_distances(); // TODO: remove it from here move it to loadState when it is in sumatra project
   while (_smtr.currentTimeStep < steps)
   {
 		if (notify_subscribers()) break;
@@ -324,7 +328,7 @@ void smtr_run_loop(unsigned long long steps)
     update_velocities();
     update_coordinates();
     if (_smtr.currentTimeStep % DIST_CALC_INTERVAL == 0)
-      update_distances();
+      smtr_update_distances();
     else
       update_neighbours();
 
@@ -332,6 +336,10 @@ void smtr_run_loop(unsigned long long steps)
   }
 }
 
+void smtr_run_loop2(unsigned long long steps)	{
+	
+	
+}
 //
 // Allen, M. P. & Tildesley, D. J. (1987).
 // Computer Simulation of Liquids, Oxford University Press, Oxford, UK. p. 347
@@ -385,5 +393,29 @@ float smtr_calcKineticEnergy () {
 		sumKineticEnergy += mass * (V.x*V.x + V.y*V.y + V.z*V.z);
 	}
 	return sumKineticEnergy * 0.5;
+}
+
+// -------------------------------------------
+// Running Action
+// -------------------------------------------
+void smtr_run() {
+	_smtr._running = 1;
+	smtr_update_distances(); // TODO: remove it from here move it to loadState when it is in sumatra project
+	while (_smtr._running) {
+		if (notify_subscribers()) break;
+		
+		update_velocities();
+		update_coordinates();
+		if (_smtr.currentTimeStep % DIST_CALC_INTERVAL == 0)
+			smtr_update_distances();
+		else
+			update_neighbours();
+		
+		_smtr.currentTimeStep++;
+	}
+}
+
+void smtr_break () {
+	_smtr._running = 0;
 }
 

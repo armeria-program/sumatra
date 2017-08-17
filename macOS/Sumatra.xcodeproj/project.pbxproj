@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		762E017D1EF294040020E9A2 /* scf.c in Sources */ = {isa = PBXBuildFile; fileRef = 762E017B1EF294040020E9A2 /* scf.c */; };
+		762E017E1EF294040020E9A2 /* scf.c in Sources */ = {isa = PBXBuildFile; fileRef = 762E017B1EF294040020E9A2 /* scf.c */; };
+		762E017F1EF294040020E9A2 /* scf.h in Headers */ = {isa = PBXBuildFile; fileRef = 762E017C1EF294040020E9A2 /* scf.h */; };
 		765BE4981DC9725800F8FBF4 /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
 		765BE4991DC9726300F8FBF4 /* smtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F65BF331D9B9ACE005B886C /* smtr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		765BE49A1DC9727000F8FBF4 /* vec3.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F65BF341D9B9ACE005B886C /* vec3.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		769A2C201EF7A6200013225A /* sca.c in Sources */ = {isa = PBXBuildFile; fileRef = 769A2C1E1EF7A6200013225A /* sca.c */; };
+		769A2C211EF7A6200013225A /* sca.c in Sources */ = {isa = PBXBuildFile; fileRef = 769A2C1E1EF7A6200013225A /* sca.c */; };
+		769A2C221EF7A6200013225A /* sca.h in Headers */ = {isa = PBXBuildFile; fileRef = 769A2C1F1EF7A6200013225A /* sca.h */; };
 		8F65BF351D9B9ACE005B886C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF2F1D9B9ACE005B886C /* main.c */; };
 		8F65BF361D9B9ACE005B886C /* scg.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF301D9B9ACE005B886C /* scg.c */; };
 		8F65BF371D9B9ACE005B886C /* smtr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F65BF321D9B9ACE005B886C /* smtr.c */; };
@@ -28,7 +34,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		762E017B1EF294040020E9A2 /* scf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scf.c; sourceTree = "<group>"; };
+		762E017C1EF294040020E9A2 /* scf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scf.h; sourceTree = "<group>"; };
 		765BE4941DC9723E00F8FBF4 /* libsmtr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsmtr.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		769A2C1E1EF7A6200013225A /* sca.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sca.c; sourceTree = "<group>"; };
+		769A2C1F1EF7A6200013225A /* sca.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sca.h; sourceTree = "<group>"; };
 		8F65BF2F1D9B9ACE005B886C /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		8F65BF301D9B9ACE005B886C /* scg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scg.c; sourceTree = "<group>"; };
 		8F65BF311D9B9ACE005B886C /* scg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scg.h; sourceTree = "<group>"; };
@@ -65,6 +75,10 @@
 				8F65BF321D9B9ACE005B886C /* smtr.c */,
 				8F65BF331D9B9ACE005B886C /* smtr.h */,
 				8F65BF341D9B9ACE005B886C /* vec3.h */,
+				762E017B1EF294040020E9A2 /* scf.c */,
+				762E017C1EF294040020E9A2 /* scf.h */,
+				769A2C1E1EF7A6200013225A /* sca.c */,
+				769A2C1F1EF7A6200013225A /* sca.h */,
 			);
 			name = src;
 			path = ../src;
@@ -94,7 +108,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				762E017F1EF294040020E9A2 /* scf.h in Headers */,
 				765BE4991DC9726300F8FBF4 /* smtr.h in Headers */,
+				769A2C221EF7A6200013225A /* sca.h in Headers */,
 				765BE49A1DC9727000F8FBF4 /* vec3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +193,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				769A2C211EF7A6200013225A /* sca.c in Sources */,
+				762E017E1EF294040020E9A2 /* scf.c in Sources */,
 				765BE4981DC9725800F8FBF4 /* smtr.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,6 +205,8 @@
 			files = (
 				8F65BF371D9B9ACE005B886C /* smtr.c in Sources */,
 				8F65BF351D9B9ACE005B886C /* main.c in Sources */,
+				762E017D1EF294040020E9A2 /* scf.c in Sources */,
+				769A2C201EF7A6200013225A /* sca.c in Sources */,
 				8F65BF361D9B9ACE005B886C /* scg.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +361,7 @@
 				765BE4971DC9723E00F8FBF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8F8F0AB31D0049B300406249 /* Build configuration list for PBXProject "Sumatra" */ = {
 			isa = XCConfigurationList;

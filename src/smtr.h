@@ -69,6 +69,7 @@ struct SmtrEnergyClass {
 
 void smtr_add_energy(SmtrCalculateEnergyFunc, void *userData);
 
+void smtr_update_distances();
 /* To Here */
 
 typedef int (*SmtrCallbackFunc)(void *userData);
@@ -79,6 +80,9 @@ struct SmtrSubscriber
   SmtrCallbackFunc callback;
 };
 
+typedef unsigned long long int stime;
+stime* init_stime();
+
 struct SmtrContext
 {
   vec3 *particles;
@@ -86,7 +90,7 @@ struct SmtrContext
   float *mass;
   float *distances;
   int *neighbours;
-  unsigned long long currentTimeStep;
+  stime currentTimeStep;
   vec3 *velocities;
   float *vforceScalars;
   
@@ -99,14 +103,17 @@ struct SmtrContext
 
   int subscriberCount;
   SmtrSubscriber subscribers[MAX_SUBSCRIBER_COUNT];
-  int SEED; // TODO: for recording state global seed added here, consider refactor it from removing smwhr else
+  int SEED; // TODO: for recording state global seed added here, consider refactor it: moving smwhr else
+	int _running; // TODO: global runflag is using from smtr_run and smtr_break. consider refactor it: moving smwhr else
 };
 
 extern SmtrContext *smtr_ctx;
 
 int smtr_init(vec3 *particles, float *mass,
               int particleCount, float temperature);
-void smtr_run_loop(unsigned long long steps);
+void smtr_run_loop(stime steps);
+void smtr_run();
+void smtr_break();
 
 int smtr_add_force(SmtrUpdateForceFunc func, void *userData);
 void smtr_subscribe_event(SmtrCallbackFunc func, void *userData);
@@ -127,6 +134,7 @@ static inline vec3 svec3_unit(int i, int j)
   vec3 *p = smtr_ctx->particles;
   return vec3_div(vec3_sub(p[i], p[j]), svec3_dist(i, j));
 }
+
 
 
 #endif /* smtr_ctx_h */
