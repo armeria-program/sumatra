@@ -32,8 +32,8 @@ typedef struct event_data eventData;
 
 eventData* sca_init_eventData ();
 int sca_event (eventData *E);
-int sca_condition_simstep_interval (stime *intervaltime);
-int sca_condition_simstep_limit (stime *limit);
+int sca_condition_simstep_interval (simtime *intervaltime);
+int sca_condition_simstep_limit (simtime *limit);
 // -------------------------------------------
 // Event Constractors - End
 // -------------------------------------------
@@ -45,7 +45,7 @@ int sca_recordState_Event (void *Precord);
 int sca_recordState(char *filepath);
 int sca_loadState(char *filepath);
 
-int run_loop (stime timelimit);
+int run_loop (simtime timelimit);
 
 struct cache_state {
 	/* for multiple states */
@@ -58,7 +58,7 @@ struct cache_state {
 typedef struct cache_state cacheStates;
 cacheStates* sca_cache_init (int size);
 void sca_cache_setnull_cacheStates (cacheStates *C);
-int sca_cache_record_event (stime time_interval, int cache_state_size, cacheStates **C);
+int sca_cache_record_event (simtime time_interval, int cache_state_size, cacheStates **C);
 void sca_cache_load_lastState (cacheStates *C);
 void sca_cache_load_oldestState (cacheStates *C);
 #endif /* sca_h */

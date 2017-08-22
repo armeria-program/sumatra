@@ -28,7 +28,7 @@ int condition_simstep_interval (void *data);
 struct simstate {
 	/*!< recording simulation state
 	 */
-	stime currentTimeStep;
+	simtime currentTimeStep;
 	int seed;
 	vec3 *particles;
 	vec3 *velocities;
@@ -146,7 +146,7 @@ void write_simstate_tofile (struct simstate *C, char *filepath) {
 	// TODO: move write file here using cache_states actions
 	
 	N = smtr_ctx->particleCount;
-	fwrite(&C->currentTimeStep, sizeof(stime), 1, out);
+	fwrite(&C->currentTimeStep, sizeof(simtime), 1, out);
 	fwrite(&C->seed, sizeof(int), 1, out );
 	fwrite(C->particles, sizeof(vec3), N, out);
 	fwrite(C->velocities, sizeof(vec3), N, out);
@@ -154,9 +154,9 @@ void write_simstate_tofile (struct simstate *C, char *filepath) {
 	
 }
 
-int sca_cache_record_event (stime time_interval, int cache_state_size, cacheStates **C) {
+int sca_cache_record_event (simtime time_interval, int cache_state_size, cacheStates **C) {
 	struct event_data *E;
-	stime *interval;
+	simtime *interval;
 	E = malloc(sizeof(struct event_data));
 	interval = init_stime();
 	*interval = time_interval;
@@ -206,7 +206,7 @@ int sca_recordState(char *filepath) {
 	
 	//_write_cache_state_tofile(&C, filepath);
 	
-	fwrite(&smtr_ctx->currentTimeStep, sizeof(stime), 1, out);
+	fwrite(&smtr_ctx->currentTimeStep, sizeof(simtime), 1, out);
 	fwrite(&smtr_ctx->SEED, sizeof(int), 1, out );
 	fwrite(smtr_ctx->particles, sizeof(vec3), smtr_ctx->particleCount, out);
 	fwrite(smtr_ctx->velocities, sizeof(vec3), smtr_ctx->particleCount, out);
@@ -228,7 +228,7 @@ int sca_loadState(char *filepath) {
 	/* Record sim state to continue later */
 	FILE *out;
 	out = fopen(filepath, "rb");
-	fread(&smtr_ctx->currentTimeStep, sizeof(stime), 1, out);
+	fread(&smtr_ctx->currentTimeStep, sizeof(simtime), 1, out);
 	fread(&smtr_ctx->SEED, sizeof(int), 1, out );
 	srand(smtr_ctx->SEED);
 	fread(smtr_ctx->particles, sizeof(vec3), smtr_ctx->particleCount, out);
@@ -256,7 +256,7 @@ eventData* sca_init_eventData () {
 }
 
 struct _time_limit {
-	stime timelimit;
+	simtime timelimit;
 };
 
 int sca_event (eventData *E) {
@@ -266,7 +266,7 @@ int sca_event (eventData *E) {
 		return 0;
 	}
 
-int sca_condition_simstep_interval (stime *intervaltime) {
+int sca_condition_simstep_interval (simtime *intervaltime) {
 	/*!<
 	 For every `intervaltime` steps, return True
 	 Usefull such as printing trajectory files each 400 timesteps etc.
@@ -276,7 +276,7 @@ int sca_condition_simstep_interval (stime *intervaltime) {
 	return 0;
 }
 
-int sca_condition_simstep_limit (stime *limit) {
+int sca_condition_simstep_limit (simtime *limit) {
 	/*!
 	 After given `limit` time step expired return True
 	 Usefull such as ending simulation in givin time step.
@@ -302,8 +302,8 @@ static inline int sca_event_action_break (void *dummy) {
 	return 0;
 }
 
-int run_loop (stime timelimit) {
-	stime *T;
+int run_loop (simtime timelimit) {
+	simtime *T;
 	T = init_stime();
 	*T = timelimit;
 	
