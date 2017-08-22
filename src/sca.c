@@ -163,13 +163,13 @@ int sca_cache_record_event (stime time_interval, int cache_state_size, cacheStat
 	
 	*C = sca_cache_init(cache_state_size);
 	
-	E->condition_function = sca_condition_simstep_interval;
+	E->condition_function = (int(*)(void*)) sca_condition_simstep_interval;
 	E->condition_data=interval;
 	
-	E->action_function=record_cacheStates;
+	E->action_function= (int(*)(void*)) record_cacheStates;
 	E->action_data=*C;
 	
-	smtr_subscribe_event(sca_event, E);
+	smtr_subscribe_event( (SmtrCallbackFunc) sca_event, E);
 	return 0;
 }
 
