@@ -46,8 +46,8 @@ static void add_random_force(float temperature);
 // Extension to vec3
 static vec3 vec3_random(float scalar);
 
-stime* init_stime() {
-	return malloc(1 * sizeof(stime));
+simtime* init_stime() {
+	return malloc(1 * sizeof(simtime));
 }
 
 int smtr_init(vec3 *partcls, float *mass, int size, float temperature)

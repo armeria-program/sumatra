@@ -80,8 +80,8 @@ struct SmtrSubscriber
   SmtrCallbackFunc callback;
 };
 
-typedef unsigned long long int stime;
-stime* init_stime();
+typedef unsigned long long int simtime;
+simtime* init_stime();
 
 struct SmtrContext
 {
@@ -90,7 +90,7 @@ struct SmtrContext
   float *mass;
   float *distances;
   int *neighbours;
-  stime currentTimeStep;
+  simtime currentTimeStep;
   vec3 *velocities;
   float *vforceScalars;
   
@@ -111,7 +111,7 @@ extern SmtrContext *smtr_ctx;
 
 int smtr_init(vec3 *particles, float *mass,
               int particleCount, float temperature);
-void smtr_run_loop(stime steps);
+void smtr_run_loop(simtime steps);
 void smtr_run();
 void smtr_break();
 
