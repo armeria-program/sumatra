@@ -34,6 +34,7 @@ eventData* sca_init_eventData ();
 int sca_event (eventData *E);
 int sca_condition_simstep_interval (simtime *intervaltime);
 int sca_condition_simstep_limit (simtime *limit);
+int sca_condition_is_folded (int *limit);
 // -------------------------------------------
 // Event Constractors - End
 // -------------------------------------------
