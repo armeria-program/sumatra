@@ -35,6 +35,8 @@ int sca_event (eventData *E);
 int sca_condition_simstep_interval (simtime *intervaltime);
 int sca_condition_simstep_limit (simtime *limit);
 int sca_condition_is_folded (int *limit);
+
+int sca_event_action_break (void *dummy);
 // -------------------------------------------
 // Event Constractors - End
 // -------------------------------------------
@@ -47,6 +49,27 @@ int sca_recordState(char *filepath);
 int sca_loadState(char *filepath);
 
 int run_loop (simtime timelimit);
+
+
+
+struct simstate {
+	/*!< recording simulation state
+	 */
+	simtime currentTimeStep;
+	int seed;
+	vec3 *particles;
+	vec3 *velocities;
+	vec3 *forces;
+};
+typedef struct simstate sca_simstate;
+
+sca_simstate sca_simstate_init ();
+void sca_simstate_free (struct simstate *C);
+void sca_simstate_record (struct simstate *C);
+void sca_simstate_load (struct simstate *C);
+void sca_simstate_setnull (struct simstate *C);
+void sca_simstate_writeTofile (struct simstate *C, char *filepath);
+
 
 struct cache_state {
 	/* for multiple states */
@@ -62,6 +85,7 @@ void sca_cache_setnull_cacheStates (cacheStates *C);
 int sca_cache_record_event (simtime time_interval, int cache_state_size, cacheStates **C);
 void sca_cache_load_lastState (cacheStates *C);
 void sca_cache_load_oldestState (cacheStates *C);
+void sca_cache_recordCurrentState (cacheStates *C);
 #endif /* sca_h */
 
 

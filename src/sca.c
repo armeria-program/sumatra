@@ -25,19 +25,10 @@ int condition_simstep_interval (void *data);
 // -------------------------------------------
 // Cache State Action
 // -------------------------------------------
-struct simstate {
-	/*!< recording simulation state
-	 */
-	simtime currentTimeStep;
-	int seed;
-	vec3 *particles;
-	vec3 *velocities;
-	vec3 *forces;
-};
 
 int record_cache_state_event();
 
-struct simstate init_simstate () {
+struct simstate sca_simstate_init () {
 	struct simstate O;
 	O.particles = (vec3*) calloc(smtr_ctx->particleCount, sizeof(vec3));
 	O.velocities = (vec3*) calloc(smtr_ctx->particleCount, sizeof(vec3));
@@ -56,31 +47,21 @@ cacheStates* sca_cache_init (int size) {
 	O->counter = 0;
 	
 	for (i=0; i<size; i++) {
-		O->data[i] = init_simstate();
+		O->data[i] = sca_simstate_init();
 	}
 	return O;
 }
 
-void free_simstate (struct simstate *C) {
+void sca_simstate_free (struct simstate *C) {
 	free(C->particles);
 	free(C->velocities);
 	free(C->forces);
 }
 
-void free_cacheStates (cacheStates *C) {
-	int i;
-	struct simstate *data;
-	for (i=0; i<C->size; i++) {
-		data = &C->data[i];
-		free(data->particles);
-		free(data->velocities);
-		free(data->forces);
-	}
-	free(C->data);
-	free(C);
-}
-
-void record_simstate (struct simstate *C) {
+void sca_simstate_record (struct simstate *C) {
+	/*!
+	 Record current state from smtr_ctx to given `C`
+	 */
 	C->currentTimeStep = smtr_ctx->currentTimeStep;
 	C->seed = smtr_ctx->SEED;
 	int N = smtr_ctx->particleCount;
@@ -89,13 +70,7 @@ void record_simstate (struct simstate *C) {
 	memcpy(C->forces, smtr_ctx->forces, N * sizeof(vec3));
 }
 
-void record_cacheStates (cacheStates *C) {
-	C->current_index = ( C->current_index + 1 ) % C->size;
-	C->counter++;
-	record_simstate(&C->data[C->current_index]);
-}
-
-void load_simstate (struct simstate *C) {
+void sca_simstate_load (struct simstate *C) {
 	smtr_ctx->currentTimeStep = C->currentTimeStep;
 	smtr_ctx->SEED = C->seed;
 	srand(smtr_ctx->SEED);
@@ -106,38 +81,7 @@ void load_simstate (struct simstate *C) {
 	smtr_update_distances();
 }
 
-void setnull_simstate (struct simstate *C) {
-	C->currentTimeStep = -1;
-	C->seed = 0;
-	memset(C->particles, 0, smtr_ctx->particleCount * sizeof(vec3));
-	memset(C->velocities, 0, smtr_ctx->particleCount * sizeof(vec3));
-	memset(C->forces, 0, smtr_ctx->particleCount * sizeof(vec3));
-}
-
-void sca_cache_setnull_cacheStates (cacheStates *C) {
-	int i=0;
-	C->current_index=0;
-	C->counter = 0;
-	for (i=0; i<C->size; i++) {
-		setnull_simstate(&C->data[i]);
-	}
-}
-
-void sca_cache_load_lastState (cacheStates *C) {
-	int i = (C->current_index + C->size - 1 ) % C->size ;
-	load_simstate(&C->data[i]);
-}
-
-void sca_cache_load_oldestState (cacheStates *C) {
-	int i;
-	if (C->counter >= C->size)
-		i = (C->current_index + 1) % C->size;
-	else
-		i = 0;
-	load_simstate(&C->data[i]);
-}
-
-void write_simstate_tofile (struct simstate *C, char *filepath) {
+void sca_simstate_writeTofile (struct simstate *C, char *filepath) {
 	/* Record sim state to to file */
 	//if (smtr_ctx->currentTimeStep != 500) return 0;
 	FILE *out;
@@ -154,6 +98,60 @@ void write_simstate_tofile (struct simstate *C, char *filepath) {
 	
 }
 
+void free_cacheStates (cacheStates *C) {
+	int i;
+	struct simstate *data;
+	for (i=0; i<C->size; i++) {
+		data = &C->data[i];
+		sca_simstate_free(data);
+	}
+	free(C->data);
+	free(C);
+}
+
+void sca_simstate_setnull (struct simstate *C) {
+	C->currentTimeStep = -1;
+	C->seed = 0;
+	memset(C->particles, 0, smtr_ctx->particleCount * sizeof(vec3));
+	memset(C->velocities, 0, smtr_ctx->particleCount * sizeof(vec3));
+	memset(C->forces, 0, smtr_ctx->particleCount * sizeof(vec3));
+}
+
+void sca_cache_recordCurrentState (cacheStates *C) {
+	/*!
+	 Record current state to cacheStates
+	 If caches states is not full uses new block, else removes oldest cacheState data and records its place
+	 */
+	C->current_index = ( C->current_index + 1 ) % C->size;
+	C->counter++;
+	sca_simstate_record(&C->data[C->current_index]);
+}
+
+void sca_cache_setnull_cacheStates (cacheStates *C) {
+	int i=0;
+	C->current_index=0;
+	C->counter = 0;
+	for (i=0; i<C->size; i++) {
+		sca_simstate_setnull(&C->data[i]);
+	}
+}
+
+void sca_cache_load_lastState (cacheStates *C) {
+	int i = (C->current_index + C->size - 1 ) % C->size ;
+	sca_simstate_load(&C->data[i]);
+}
+
+void sca_cache_load_oldestState (cacheStates *C) {
+	int i;
+	if (C->counter >= C->size)
+		i = (C->current_index + 1) % C->size;
+	else
+		i = 0;
+	sca_simstate_load(&C->data[i]);
+}
+
+
+
 int sca_cache_record_event (simtime time_interval, int cache_state_size, cacheStates **C) {
 	struct event_data *E;
 	simtime *interval;
@@ -166,7 +164,7 @@ int sca_cache_record_event (simtime time_interval, int cache_state_size, cacheSt
 	E->condition_function = (int(*)(void*)) sca_condition_simstep_interval;
 	E->condition_data=interval;
 	
-	E->action_function= (int(*)(void*)) record_cacheStates;
+	E->action_function= (int(*)(void*)) sca_cache_recordCurrentState;
 	E->action_data=*C;
 	
 	smtr_subscribe_event( (SmtrCallbackFunc) sca_event, E);
@@ -197,12 +195,12 @@ int sca_recordState(char *filepath) {
 	out = fopen(filepath, "wb");
 	
 	struct simstate C;
-	C = init_simstate();
-	record_simstate(&C);
+	C = sca_simstate_init();
+	sca_simstate_record(&C);
 	
 	// TODO: move write file here using cache_states actions
 	
-	free_simstate(&C);
+	sca_simstate_free(&C);
 	
 	//_write_cache_state_tofile(&C, filepath);
 	
@@ -292,7 +290,7 @@ int sca_condition_is_folded (int *limit) {
 	return 0;
 }
 
-static inline int sca_event_action_break (void *dummy) {
+int sca_event_action_break (void *dummy) {
 	/*!<
 	 This function casted original `smtr_break function into from
 	 that sca_event can use as an action
@@ -495,7 +493,7 @@ float sum_vec3List_scalar (vec3 *vec3list, int N) {
 	}
 	return sum;
 }
-
+/*
 int run_kinetic (int desiredSampleSize, cacheStates startState) {
     int i;
 	eventData *ed;
@@ -513,3 +511,4 @@ int run_kinetic (int desiredSampleSize, cacheStates startState) {
     }
     return 0;
 }
+*/
