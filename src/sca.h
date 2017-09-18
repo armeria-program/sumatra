@@ -86,6 +86,7 @@ int sca_cache_record_event (simtime time_interval, int cache_state_size, cacheSt
 void sca_cache_load_lastState (cacheStates *C);
 void sca_cache_load_oldestState (cacheStates *C);
 void sca_cache_recordCurrentState (cacheStates *C);
+sca_simstate* sca_cache_get_element (cacheStates *C, int elementIndex);
 #endif /* sca_h */
 
 
