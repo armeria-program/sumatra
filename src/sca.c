@@ -314,13 +314,13 @@ int run_loop (simtime timelimit) {
 	struct event_data *E;
 	E = malloc(1 * sizeof(struct event_data));
 	
-	E->condition_function = sca_condition_simstep_limit;
+	E->condition_function = (SmtrCallbackFunc) sca_condition_simstep_limit;
 	E->condition_data = T;
 	
 	E->action_function = sca_event_action_break;
 	E->action_data = NULL;
 	
-	smtr_subscribe_event(sca_event, E);
+	smtr_subscribe_event( (SmtrCallbackFunc) sca_event, E);
 	smtr_run();
 	
 	// TODO: free E and T
