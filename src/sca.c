@@ -95,7 +95,7 @@ void sca_simstate_writeTofile (struct simstate *C, char *filepath) {
 	fwrite(C->particles, sizeof(vec3), N, out);
 	fwrite(C->velocities, sizeof(vec3), N, out);
 	fwrite(C->forces, sizeof(vec3), N, out);
-	
+	fclose(out);
 }
 
 void free_cacheStates (cacheStates *C) {
@@ -129,7 +129,7 @@ void sca_cache_recordCurrentState (cacheStates *C) {
 
 void sca_cache_setnull_cacheStates (cacheStates *C) {
 	int i=0;
-	C->current_index=0;
+	C->current_index=-1;
 	C->counter = 0;
 	for (i=0; i<C->size; i++) {
 		sca_simstate_setnull(&C->data[i]);
