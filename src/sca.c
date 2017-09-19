@@ -139,7 +139,7 @@ void sca_cache_setnull_cacheStates (cacheStates *C) {
 sca_simstate* sca_cache_get_element (cacheStates *C, int elementIndex) {
 	if (elementIndex >= C->size ) { return NULL; }
 	if (C->counter < C->size) { return &C->data[elementIndex]; }
-	else { return &C->data[ (C->current_index+1 % C->size) + elementIndex ]; }
+	else { return &C->data[ ( (C->current_index+1) % C->size) + elementIndex ]; }
 }
 
 void sca_cache_load_lastState (cacheStates *C) {
