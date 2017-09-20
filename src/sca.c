@@ -14,8 +14,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-vec3 sum_vec3List_vectorel (vec3 *vec3list, int N);
-float sum_vec3List_scalar (vec3 *vec3list, int N);
+
 int sca_recordState(char *filepath);
 
 int condition_simstep_interval (void *data);

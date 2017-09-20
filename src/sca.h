@@ -87,6 +87,10 @@ void sca_cache_load_lastState (cacheStates *C);
 void sca_cache_load_oldestState (cacheStates *C);
 void sca_cache_recordCurrentState (cacheStates *C);
 sca_simstate* sca_cache_get_element (cacheStates *C, int elementIndex);
+
+vec3 sum_vec3List_vectorel (vec3 *vec3list, int N);
+float sum_vec3List_scalar (vec3 *vec3list, int N);
+
 #endif /* sca_h */
 
 
