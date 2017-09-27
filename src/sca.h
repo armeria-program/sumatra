@@ -69,7 +69,7 @@ void sca_simstate_record (struct simstate *C);
 void sca_simstate_load (struct simstate *C);
 void sca_simstate_setnull (struct simstate *C);
 void sca_simstate_writeTofile (struct simstate *C, char *filepath);
-
+void sca_simstate_loadfromFile (sca_simstate *stateOut, char *filepath);
 
 struct cache_state {
 	/* for multiple states */
@@ -87,7 +87,7 @@ void sca_cache_load_lastState (cacheStates *C);
 void sca_cache_load_oldestState (cacheStates *C);
 void sca_cache_recordCurrentState (cacheStates *C);
 sca_simstate* sca_cache_get_element (cacheStates *C, int elementIndex);
-
+void sca_cache_recordState (cacheStates *C, sca_simstate S);
 vec3 sum_vec3List_vectorel (vec3 *vec3list, int N);
 float sum_vec3List_scalar (vec3 *vec3list, int N);
 

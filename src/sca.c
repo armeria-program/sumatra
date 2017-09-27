@@ -70,6 +70,9 @@ void sca_simstate_record (struct simstate *C) {
 }
 
 void sca_simstate_load (struct simstate *C) {
+	/*!
+	 Load given simstate into smtr_ctx;
+	 */
 	smtr_ctx->currentTimeStep = C->currentTimeStep;
 	smtr_ctx->SEED = C->seed;
 	srand(smtr_ctx->SEED);
@@ -116,10 +119,32 @@ void sca_simstate_setnull (struct simstate *C) {
 	memset(C->forces, 0, smtr_ctx->particleCount * sizeof(vec3));
 }
 
+void sca_simstate_copy (struct simstate *destination, struct simstate *source) {
+	destination->seed = source->seed;
+	destination->currentTimeStep = source->currentTimeStep;
+	memcpy(destination->particles, source->particles, smtr_ctx->particleCount * sizeof(vec3));
+	memcpy(destination->velocities, source->velocities, smtr_ctx->particleCount * sizeof(vec3));
+	memcpy(destination->forces, source->forces, smtr_ctx->particleCount * sizeof(vec3));
+}
+
+void sca_cache_recordState (cacheStates *C, sca_simstate S) {
+	C->current_index = ( C->current_index + 1 ) % C->size;
+	C->counter++;
+	sca_simstate_copy(&C->data[C->current_index], &S);
+}
+
+
+
 void sca_cache_recordCurrentState (cacheStates *C) {
 	/*!
 	 Record current state to cacheStates
 	 If caches states is not full uses new block, else removes oldest cacheState data and records its place
+	 */
+	/*
+	sca_simstate S=sca_simstate_init();
+	sca_simstate_record(&S);
+	sca_cache_recordState(C, S);
+	sca_simstate_free(&S);
 	 */
 	C->current_index = ( C->current_index + 1 ) % C->size;
 	C->counter++;
@@ -227,7 +252,7 @@ int sca_recordState(char *filepath) {
 	return 0;
 }
 
-int sca_loadState(char *filepath) {
+int sca_loadState2(char *filepath) {
 	/* Record sim state to continue later */
 	FILE *out;
 	out = fopen(filepath, "rb");
@@ -250,6 +275,27 @@ int sca_loadState(char *filepath) {
 	fclose(out);
 	return 0;
 }
+
+void sca_simstate_loadfromFile (sca_simstate *stateOut, char *filepath ) {
+	FILE *out;
+	out = fopen(filepath, "rb");
+	fread(&stateOut->currentTimeStep, sizeof(simtime), 1, out);
+	fread(&stateOut->seed, sizeof(int), 1, out );
+	fread(stateOut->particles, sizeof(vec3), smtr_ctx->particleCount, out);
+	//updateDistance here when moved in sumatra
+	fread(stateOut->velocities, sizeof(vec3), smtr_ctx->particleCount, out);
+	fread(stateOut->forces, sizeof(vec3), smtr_ctx->particleCount, out);
+	fclose (out);
+}
+
+int sca_loadState (char *filepath) {
+	sca_simstate temp = sca_simstate_init();
+	sca_simstate_loadfromFile(&temp,filepath);
+	sca_simstate_load(&temp);
+	sca_simstate_free(&temp);
+	return 0;
+}
+
 // -------------------------------------------
 // Record and Load State Action - END
 // -------------------------------------------
