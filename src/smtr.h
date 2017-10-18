@@ -69,7 +69,7 @@ struct SmtrEnergyClass {
 
 void smtr_add_energy(SmtrCalculateEnergyFunc, void *userData);
 
-void smtr_update_distances();
+void smtr_update_distances(void);
 /* To Here */
 
 typedef int (*SmtrCallbackFunc)(void *userData);
@@ -81,7 +81,7 @@ struct SmtrSubscriber
 };
 
 typedef unsigned long long int simtime;
-simtime* init_stime();
+simtime* init_stime(void);
 
 struct SmtrContext
 {
@@ -112,13 +112,13 @@ extern SmtrContext *smtr_ctx;
 int smtr_init(vec3 *particles, float *mass,
               int particleCount, float temperature);
 void smtr_run_loop(simtime steps);
-void smtr_run();
-void smtr_break();
+void smtr_run(void);
+void smtr_break(void);
 
 int smtr_add_force(SmtrUpdateForceFunc func, void *userData);
 void smtr_subscribe_event(SmtrCallbackFunc func, void *userData);
-float smtr_calcPotentialEnergy();
-float smtr_calcKineticEnergy();
+float smtr_calcPotentialEnergy(void);
+float smtr_calcKineticEnergy(void);
 
 //void smtr_add_energy
 

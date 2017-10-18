@@ -25,7 +25,7 @@ int condition_simstep_interval (void *data);
 // Cache State Action
 // -------------------------------------------
 
-int record_cache_state_event();
+int record_cache_state_event(void);
 
 struct simstate sca_simstate_init () {
 	struct simstate O;

@@ -33,14 +33,14 @@ float kTimeUnit;
 float kVelocityScaleFactor;
 
 // eta: random number generator
-static float eta();
+static float eta(void);
 
 // Local functions
-void calculate_forces();
-static void update_coordinates();
+void calculate_forces(void);
+static void update_coordinates(void);
 //static void update_distances();
 static void update_random_forces(void *userData, vec3 *results);
-static int notify_subscribers();
+static int notify_subscribers(void);
 static void add_random_force(float temperature);
 
 // Extension to vec3

@@ -30,7 +30,7 @@ struct event_data{
 
 typedef struct event_data eventData;
 
-eventData* sca_init_eventData ();
+eventData* sca_init_eventData (void);
 int sca_event (eventData *E);
 int sca_condition_simstep_interval (simtime *intervaltime);
 int sca_condition_simstep_limit (simtime *limit);
@@ -41,7 +41,7 @@ int sca_event_action_break (void *dummy);
 // Event Constractors - End
 // -------------------------------------------
 
-void sca_shiftParticles();
+void sca_shiftParticles(void);
 int sca_shiftParticles_Event (void *data);
 
 int sca_recordState_Event (void *Precord);
@@ -63,7 +63,7 @@ struct simstate {
 };
 typedef struct simstate sca_simstate;
 
-sca_simstate sca_simstate_init ();
+sca_simstate sca_simstate_init (void);
 void sca_simstate_free (struct simstate *C);
 void sca_simstate_record (struct simstate *C);
 void sca_simstate_load (struct simstate *C);
