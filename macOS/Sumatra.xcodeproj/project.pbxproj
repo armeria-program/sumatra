@@ -77,8 +77,8 @@
 				8F65BF341D9B9ACE005B886C /* vec3.h */,
 				762E017B1EF294040020E9A2 /* scf.c */,
 				762E017C1EF294040020E9A2 /* scf.h */,
-				769A2C1E1EF7A6200013225A /* sca.c */,
 				769A2C1F1EF7A6200013225A /* sca.h */,
+				769A2C1E1EF7A6200013225A /* sca.c */,
 			);
 			name = src;
 			path = ../src;
