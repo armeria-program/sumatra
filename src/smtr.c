@@ -419,3 +419,13 @@ void smtr_break () {
 	_smtr._running = 0;
 }
 
+FILE* fopenSmtr (char *path, char *type) {
+  FILE* F;
+  extern int errno;
+  F = fopen(path, type);
+  if (F == NULL) {
+    fprintf(stderr, "Error on file %s with %s : %s", path, type, strerror(errno));
+    exit (2);
+  }
+  return F;
+}

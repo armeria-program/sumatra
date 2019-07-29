@@ -278,7 +278,7 @@ int sca_loadState2(char *filepath) {
 
 void sca_simstate_loadfromFile (sca_simstate *stateOut, char *filepath ) {
 	FILE *out;
-	out = fopen(filepath, "rb");
+	out = fopenSmtr(filepath, "rb");
 	fread(&stateOut->currentTimeStep, sizeof(simtime), 1, out);
 	fread(&stateOut->seed, sizeof(int), 1, out );
 	fread(stateOut->particles, sizeof(vec3), smtr_ctx->particleCount, out);

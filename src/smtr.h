@@ -135,7 +135,7 @@ static inline vec3 svec3_unit(int i, int j)
   return vec3_div(vec3_sub(p[i], p[j]), svec3_dist(i, j));
 }
 
-
+FILE* fopenSmtr (char *path, char *type);
 
 #endif /* smtr_ctx_h */
 
