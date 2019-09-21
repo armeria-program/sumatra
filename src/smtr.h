@@ -16,6 +16,7 @@
 #ifndef smtr_h
 #define smtr_h
 
+#include <errno.h>
 #include "vec3.h"
 
 // alpha: length scale (in angstron)
