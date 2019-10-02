@@ -13,6 +13,7 @@
 #include "sca.h"
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 
 int sca_recordState(char *filepath);
@@ -29,6 +30,7 @@ int record_cache_state_event(void);
 
 struct simstate sca_simstate_init () {
 	struct simstate O;
+    O.N = smtr_ctx->particleCount;
 	O.particles = (vec3*) calloc(smtr_ctx->particleCount, sizeof(vec3));
 	O.velocities = (vec3*) calloc(smtr_ctx->particleCount, sizeof(vec3));
 	O.forces = (vec3*) calloc(smtr_ctx->particleCount, sizeof(vec3));
@@ -64,6 +66,7 @@ void sca_simstate_record (struct simstate *C) {
 	C->currentTimeStep = smtr_ctx->currentTimeStep;
 	C->seed = smtr_ctx->SEED;
 	int N = smtr_ctx->particleCount;
+    assert(C->N == N); // C->N Size of allocated particles during init
 	memcpy(C->particles, smtr_ctx->particles, N * sizeof(vec3));
 	memcpy(C->velocities, smtr_ctx->velocities, N * sizeof(vec3));
 	memcpy(C->forces, smtr_ctx->forces, N * sizeof(vec3));
@@ -94,6 +97,7 @@ void sca_simstate_writeTofile (struct simstate *C, char *filepath) {
 	N = smtr_ctx->particleCount;
 	fwrite(&C->currentTimeStep, sizeof(simtime), 1, out);
 	fwrite(&C->seed, sizeof(int), 1, out );
+    fwrite(&C->N, sizeof(int), 1 , out);
 	fwrite(C->particles, sizeof(vec3), N, out);
 	fwrite(C->velocities, sizeof(vec3), N, out);
 	fwrite(C->forces, sizeof(vec3), N, out);
@@ -114,6 +118,7 @@ void free_cacheStates (cacheStates *C) {
 void sca_simstate_setnull (struct simstate *C) {
 	C->currentTimeStep = -1;
 	C->seed = 0;
+    //C->N=0;
 	memset(C->particles, 0, smtr_ctx->particleCount * sizeof(vec3));
 	memset(C->velocities, 0, smtr_ctx->particleCount * sizeof(vec3));
 	memset(C->forces, 0, smtr_ctx->particleCount * sizeof(vec3));
@@ -229,16 +234,17 @@ int sca_recordState(char *filepath) {
 	sca_simstate_record(&C);
 	
 	// TODO: move write file here using cache_states actions
-	
+    sca_simstate_writeTofile(&C, filepath);
+    
 	sca_simstate_free(&C);
 	
 	//_write_cache_state_tofile(&C, filepath);
 	
-	fwrite(&smtr_ctx->currentTimeStep, sizeof(simtime), 1, out);
-	fwrite(&smtr_ctx->SEED, sizeof(int), 1, out );
-	fwrite(smtr_ctx->particles, sizeof(vec3), smtr_ctx->particleCount, out);
-	fwrite(smtr_ctx->velocities, sizeof(vec3), smtr_ctx->particleCount, out);
-	fwrite(smtr_ctx->forces, sizeof(vec3), smtr_ctx->particleCount, out);
+	//fwrite(&smtr_ctx->currentTimeStep, sizeof(simtime), 1, out);
+	//fwrite(&smtr_ctx->SEED, sizeof(int), 1, out );
+	//fwrite(smtr_ctx->particles, sizeof(vec3), smtr_ctx->particleCount, out);
+	//fwrite(smtr_ctx->velocities, sizeof(vec3), smtr_ctx->particleCount, out);
+	//fwrite(smtr_ctx->forces, sizeof(vec3), smtr_ctx->particleCount, out);
 	
 	/*
 	 int i;
@@ -281,6 +287,9 @@ void sca_simstate_loadfromFile (sca_simstate *stateOut, char *filepath ) {
 	out = fopenSmtr(filepath, "rb");
 	fread(&stateOut->currentTimeStep, sizeof(simtime), 1, out);
 	fread(&stateOut->seed, sizeof(int), 1, out );
+    fread(&stateOut->N, sizeof(int), 1, out );
+    assert( stateOut->N == smtr_ctx->particleCount ) ;
+    // If this fails, Most problaby bin is for another pdb else.
 	fread(stateOut->particles, sizeof(vec3), smtr_ctx->particleCount, out);
 	//updateDistance here when moved in sumatra
 	fread(stateOut->velocities, sizeof(vec3), smtr_ctx->particleCount, out);

@@ -57,6 +57,7 @@ struct simstate {
 	 */
 	simtime currentTimeStep;
 	int seed;
+    int N; // Number of particle is necessary for parse non smtr
 	vec3 *particles;
 	vec3 *velocities;
 	vec3 *forces;
