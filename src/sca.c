@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#define VERSIONSTATE 100000
 
 int sca_recordState(char *filepath);
 
@@ -92,9 +93,11 @@ void sca_simstate_writeTofile (struct simstate *C, char *filepath) {
 	FILE *out;
 	out = fopen(filepath, "wb");
 	int N;
+    int version = VERSIONSTATE;
 	// TODO: move write file here using cache_states actions
 	
 	N = smtr_ctx->particleCount;
+    fwrite(&version, sizeof(int), 1, out);
 	fwrite(&C->currentTimeStep, sizeof(simtime), 1, out);
 	fwrite(&C->seed, sizeof(int), 1, out );
     fwrite(&C->N, sizeof(int), 1 , out);
@@ -284,7 +287,11 @@ int sca_loadState2(char *filepath) {
 
 void sca_simstate_loadfromFile (sca_simstate *stateOut, char *filepath ) {
 	FILE *out;
+    int _version;
 	out = fopenSmtr(filepath, "rb");
+    fread(&_version, sizeof(int), 1, out);
+    assert( _version == VERSIONSTATE );
+    // When fails, reading file should not be competible with this reader
 	fread(&stateOut->currentTimeStep, sizeof(simtime), 1, out);
 	fread(&stateOut->seed, sizeof(int), 1, out );
     fread(&stateOut->N, sizeof(int), 1, out );
